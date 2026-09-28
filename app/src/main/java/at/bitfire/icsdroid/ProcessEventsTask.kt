@@ -233,7 +233,10 @@ class ProcessEventsTask(
             val localEvents = calendar.queryByUID(uid)
             if (localEvents.isEmpty()) {
                 Log.d(Constants.TAG, "$uid not in local calendar, adding")
-                LocalEvent(AndroidEvent(calendar, event, null, null, null, 0)).add()
+                // syncId = UID: ical4android links recurrence exceptions to their main event via
+                // _SYNC_ID/ORIGINAL_SYNC_ID and throws if it's missing (e.g. Proton feeds with a
+                // moved occurrence of a recurring event).
+                LocalEvent(AndroidEvent(calendar, event, uid, null, null, 0)).add()
             } else {
                 val localEvent = localEvents.first()
 
@@ -255,6 +258,8 @@ class ProcessEventsTask(
                 if (lastModified == null || lastModified.dateTime.time > localEvent.lastModified) {
                     // either there is no LAST-MODIFIED, or LAST-MODIFIED has been increased
                     Log.d(Constants.TAG, "Updating $uid in local calendar")
+                    // Events stored by older builds have no _SYNC_ID; set it so exceptions can link.
+                    if (localEvent.syncId == null) localEvent.syncId = uid
                     localEvent.update(event)
                 } else
                     Log.d(Constants.TAG, "$uid has not been modified since last sync")

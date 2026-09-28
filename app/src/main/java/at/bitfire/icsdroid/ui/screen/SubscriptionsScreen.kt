@@ -404,21 +404,6 @@ fun ActionOverflowMenu(
             }
         )
         DropdownMenuItem(
-            text = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(stringResource(R.string.settings_force_dark_theme))
-                    Checkbox(
-                        checked = forceDarkMode,
-                        onCheckedChange = { onToggleDarkMode(!forceDarkMode) }
-                    )
-                }
-            },
-            onClick =  {
-                showMenu = false
-                onToggleDarkMode(!forceDarkMode)
-            }
-        )
-        DropdownMenuItem(
             enabled = subscriptionsCount > 0,
             text = { Text(stringResource(R.string.calendar_list_backup_export)) },
             onClick = {

@@ -7,55 +7,61 @@ package at.bitfire.icsdroid.ui.theme
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionContext
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import at.bitfire.icsdroid.model.ThemeModel
 import at.bitfire.icsdroid.ui.ForegroundTracker
 
-private val DarkColors = darkColorScheme(
-    primary = lightblue,
-    onPrimary = offwhite,
-    primaryContainer = lightblue,
-    onPrimaryContainer = offwhite,
-    secondary = lightblue,
-    onSecondary = offwhite,
-    secondaryContainer = lightblue,
-    onSecondaryContainer = offwhite,
-    tertiary = lightblue,
-    onTertiary = offwhite,
-    tertiaryContainer = lightblue,
-    onTertiaryContainer = offwhite,
+private val MinimalColors = darkColorScheme(
+    primary = text,
+    onPrimary = ink,
+    primaryContainer = inkHighest,
+    onPrimaryContainer = text,
+    secondary = textSecondary,
+    onSecondary = ink,
+    secondaryContainer = inkHigh,
+    onSecondaryContainer = text,
+    tertiary = textSecondary,
+    onTertiary = ink,
+    tertiaryContainer = inkHigh,
+    onTertiaryContainer = text,
+    background = ink,
+    onBackground = text,
+    surface = ink,
+    onSurface = text,
+    surfaceVariant = inkHigh,
+    onSurfaceVariant = textMuted,
+    surfaceTint = ink,
+    surfaceContainerLowest = ink,
+    surfaceContainerLow = inkRaised,
+    surfaceContainer = inkRaised,
+    surfaceContainerHigh = inkHigh,
+    surfaceContainerHighest = inkHighest,
+    inverseSurface = text,
+    inverseOnSurface = ink,
+    outline = hairline,
+    outlineVariant = hairline,
+    error = red,
+    onError = ink,
 )
 
-private val LightColors = lightColorScheme(
-    primary = lightblue,
-    onPrimary = offwhite,
-    primaryContainer = lightblue,
-    onPrimaryContainer = offwhite,
-    secondary = lightblue,
-    onSecondary = offwhite,
-    secondaryContainer = lightblue,
-    onSecondaryContainer = offwhite,
-    tertiary = lightblue,
-    onTertiary = offwhite,
-    tertiaryContainer = lightblue,
-    onTertiaryContainer = offwhite,
-    background = offwhite,
-    surfaceContainer = superlightblue,
-    surface = superlightblue,
-    surfaceContainerLowest = superlightblue,
-    surfaceContainerLow = superlightblue,
-    surfaceContainerHigh = superlightblue,
-    surfaceContainerHighest = superlightblue,
-    surfaceVariant = lightgrey,
+// Rounded like the launcher's search pill and grid highlights.
+private val MinimalShapes = Shapes(
+    extraSmall = RoundedCornerShape(8.dp),
+    small = RoundedCornerShape(12.dp),
+    medium = RoundedCornerShape(16.dp),
+    large = RoundedCornerShape(24.dp),
+    extraLarge = RoundedCornerShape(28.dp),
 )
 
 @Composable
@@ -63,8 +69,10 @@ fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    // Always the launcher's dark look; darkTheme is kept only for API compatibility.
     MaterialTheme(
-        colorScheme = if (darkTheme) DarkColors else LightColors,
+        colorScheme = MinimalColors,
+        shapes = MinimalShapes,
         content = content
     )
 

@@ -18,7 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "dev.minimal.icsync"
-        minSdk = 23
+        minSdk = 26
         targetSdk = 36
 
         versionCode = 92

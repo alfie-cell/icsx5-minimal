@@ -25,8 +25,8 @@ fun ExtendedTopAppBar(
     actions: @Composable RowScope.() -> Unit = {},
     windowInsets: WindowInsets = TopAppBarDefaults.windowInsets,
     colors: TopAppBarColors = TopAppBarDefaults.topAppBarColors(
-        containerColor = MaterialTheme.colorScheme.primary,
-        scrolledContainerColor = MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.background,
+        scrolledContainerColor = MaterialTheme.colorScheme.background,
         navigationIconContentColor = offwhite,
         titleContentColor = offwhite,
         actionIconContentColor = offwhite,
