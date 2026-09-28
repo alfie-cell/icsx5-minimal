@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">ICSx⁵</string>
+    <string name="app_name" translatable="false">Calendar Sync</string>
 
     <string name="account_name">Calendar subscriptions</string>
-    <string name="account_type" translatable="false">at.bitfire.icsdroid</string>
+    <string name="account_type" translatable="false">dev.minimal.icsync</string>
 
     <!-- common strings -->
     <string name="action_more">More</string>

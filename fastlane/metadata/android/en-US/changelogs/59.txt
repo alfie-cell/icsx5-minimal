@@ -1,3 +1,0 @@
-* hotfix for "Requires authentication" when adding a subscription
-* supports color extraction from Webcal feeds
-* minor improvements and bug fixes

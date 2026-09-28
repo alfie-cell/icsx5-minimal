@@ -1,43 +1,25 @@
+# Calendar Sync (minimal ICSx⁵ fork)
 
+A stripped-down fork of [ICSx⁵](https://github.com/bitfireAT/icsx5) by bitfire web engineering. It subscribes to an iCalendar (`.ics`) link and syncs it into Android's calendar storage. Any app that reads the device calendar can then show those events, including the Minimal launcher.
 
-[![Tests](https://github.com/bitfireAT/icsx5/actions/workflows/test-dev.yml/badge.svg)](https://github.com/bitfireAT/icsx5/actions/workflows/test-dev.yml)
-[![License](https://img.shields.io/github/license/bitfireAT/icsx5)](https://github.com/bitfireAT/icsx5/blob/main/LICENSE)
-[![F-Droid](https://img.shields.io/f-droid/v/at.bitfire.icsdroid)](https://f-droid.org/packages/at.bitfire.icsdroid/)
+The main use is a **Proton Calendar share link**, since Proton doesn't sync to the device calendar itself.
 
+## Changes from upstream
 
-ICSx⁵
-========
+- New app id `dev.minimal.icsync`, name "Calendar Sync", and sync-account type, so it installs alongside the official ICSx⁵ without clashing.
+- Removed: the donation button and dialog, the winter easter egg, translations, the Play/standard build flavours, fastlane metadata and upstream CI.
+- Release builds are signed with the local debug key, for sideloading.
+- The sync engine (fetching, parsing, writing to the calendar provider, scheduled sync) is unchanged from upstream.
 
-ICSx⁵ is an Android app to subscribe to remote Webcal feeds / iCalendar files (like
-time tables of your school/university or event files of your sports team).
+## Build
 
-Please see the [ICSx⁵ Web site](https://icsx5.bitfire.at) for comprehensive information about ICSx⁵.
+```sh
+scripts/build-cert4android.sh     # once: JitPack can't build the pinned cert4android commit
+./gradlew assembleRelease         # app/build/outputs/apk/release/calendar-sync-*.apk
+```
 
-News and updates: [@davx5app@fosstodon.org](https://fosstodon.org/@davx5app)
+Requires JDK 21 and the Android SDK.
 
-Help, discussion, ideas, bug reports: [ICSx⁵ discussions](https://github.com/bitfireAT/icsx5/discussions)
+## Licence
 
-
-Contributions
-=======
-
-We're happy about contributions! Just send a pull request for small changes or in case
-of bigger changes, please let us know in the discussions before.
-
-## Translations
-ICSx⁵ is available [on Transifex](https://explore.transifex.com/bitfireAT/icsx5/). There you can propose
-changes to the translations, or create new ones. Feel free to suggest new languages, people will
-love it.
-
-
-
-License 
-=======
-
-ICSx⁵ is licensed under the [GPLv3 License](LICENSE).
-
-Copyright © Ricki Hirner ([bitfire web engineering GmbH](https://www.bitfire.at)) and [contributors](https://github.com/bitfireAT/icsx5/graphs/contributors).
-
-This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome
-to redistribute it under the conditions of the [GNU GPL v3](https://www.gnu.org/licenses/gpl-3.0.html).
-
+GPL-3.0, same as upstream (see `LICENSE`). Copyright © bitfire web engineering and contributors; modifications © 2026. The in-app About screen still shows the licence and upstream attribution.

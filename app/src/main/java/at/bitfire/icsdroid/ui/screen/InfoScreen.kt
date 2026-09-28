@@ -38,18 +38,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmap
-import androidx.datastore.preferences.core.edit
 import at.bitfire.icsdroid.BuildConfig
 import at.bitfire.icsdroid.R
-import at.bitfire.icsdroid.Settings.Companion.nextReminder
-import at.bitfire.icsdroid.dataStore
 import at.bitfire.icsdroid.service.ComposableStartupService
-import at.bitfire.icsdroid.service.ComposableStartupService.Companion.FLAG_DONATION_DIALOG
 import at.bitfire.icsdroid.ui.partials.ExtendedTopAppBar
 import at.bitfire.icsdroid.ui.partials.GenericAlertDialog
 import com.mikepenz.aboutlibraries.ui.compose.m3.LibrariesContainer
 import com.mikepenz.aboutlibraries.ui.compose.produceLibraries
-import kotlinx.coroutines.runBlocking
 import java.util.ServiceLoader
 
 @Composable
@@ -60,8 +55,6 @@ fun InfoScreen(
 ) {
     val resources = LocalResources.current
     val uriHandler = LocalUriHandler.current
-
-    val hasDonateDialogService = compStartupServices.any { it.hasFlag(FLAG_DONATION_DIALOG) }
 
     Scaffold(
         topBar = {
@@ -112,7 +105,7 @@ fun InfoScreen(
 
         Column(Modifier.padding(contentPadding)) {
             Header()
-            License(hasDonateDialogService)
+            License()
             LibrariesContainer(
                 libraries = libraries
             )
@@ -147,7 +140,7 @@ private fun Header() {
             text = stringResource(
                 R.string.app_info_version,
                 BuildConfig.VERSION_NAME,
-                BuildConfig.FLAVOR
+                "minimal"
             ),
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onBackground,
@@ -167,18 +160,10 @@ private fun Header() {
 }
 
 @Composable
-private fun License(
-    hasDonateDialogService: Boolean
-) {
-    val context = LocalContext.current
-
+private fun License() {
     val showLicenseDialog = rememberSaveable { mutableStateOf(false) }
     if (showLicenseDialog.value)
         TextDialog(R.string.app_info_gplv3_note, showLicenseDialog)
-
-    val showDonateDialog = rememberSaveable { mutableStateOf(false) }
-    if (showDonateDialog.value)
-        TextDialog(R.string.donate_message, showDonateDialog)
 
     Row {
         OutlinedButton(
@@ -188,22 +173,6 @@ private fun License(
                 .padding(horizontal = 4.dp)
         ) {
             Text(stringResource(R.string.app_info_gplv3))
-        }
-        OutlinedButton(
-            onClick = {
-                if (hasDonateDialogService) runBlocking {
-                    // If there's a donate dialog service, show the dialog
-                    context.dataStore.edit { it[nextReminder] = 0 }
-                } else {
-                    // If there's no service, show the donate dialog directly
-                    showDonateDialog.value = true
-                }
-            },
-            modifier = Modifier
-                .weight(1f)
-                .padding(horizontal = 4.dp)
-        ) {
-            Text(stringResource(R.string.app_info_donate))
         }
     }
 }

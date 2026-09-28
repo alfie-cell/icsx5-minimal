@@ -17,14 +17,14 @@ android {
     namespace = "at.bitfire.icsdroid"
 
     defaultConfig {
-        applicationId = "at.bitfire.icsdroid"
+        applicationId = "dev.minimal.icsync"
         minSdk = 23
         targetSdk = 36
 
         versionCode = 92
-        versionName = "2.4.3"
+        versionName = "2.4.3-minimal"
 
-        setProperty("archivesBaseName", "icsx5-$versionCode-$versionName")
+        setProperty("archivesBaseName", "calendar-sync-$versionName")
 
         testInstrumentationRunner = "at.bitfire.icsdroid.HiltTestRunner"
 
@@ -51,27 +51,6 @@ android {
         compose = true
     }
 
-    flavorDimensions += "distribution"
-    productFlavors {
-        create("standard") {}
-        create("gplay") {}
-    }
-
-    signingConfigs {
-        create("bitfire_apk") {
-            storeFile = file(System.getenv("ANDROID_KEYSTORE") ?: "/dev/null")
-            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("ANDROID_KEY_ALIAS")
-            keyPassword = System.getenv("ANDROID_KEY_PASSWORD")
-        }
-        create("bitfire_aab") {
-            storeFile = file(System.getenv("ANDROID_KEYSTORE") ?: "/dev/null")
-            storePassword = System.getenv("ANDROID_KEYSTORE_PASSWORD")
-            keyAlias = System.getenv("UPLOAD_KEY_ALIAS")
-            keyPassword = System.getenv("UPLOAD_KEY_PASSWORD")
-        }
-    }
-
     buildTypes {
         debug {
             isMinifyEnabled = false
@@ -80,8 +59,8 @@ android {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
 
-            productFlavors.getByName("standard").signingConfig = signingConfigs.getByName("bitfire_apk")
-            productFlavors.getByName("gplay").signingConfig = signingConfigs.getByName("bitfire_aab")
+            // Fork: signed with the local debug key for sideloading.
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 
